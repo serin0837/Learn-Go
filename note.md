@@ -506,3 +506,42 @@ go does not have constructor method
 we have to implement constructor ourself
 
 a lot of things come fromt structs so it's really important
+
+
+
+# Firt Project
+had error about module so I had to type `go mod init github.com/serin0837/learngo` in terminal and working
+
+
+
+// need to start with B uppercase cause we want to export and want to use in main.go
+// and I have to add comment!! vscode give me small error to put comment about export struct
+//owner and balance need to start with capital as well becuase it need to be public
+
+
+if we change balance to lowercase, people can not change money balalnce
+
+so change back to private
+and we have to make constructor
+and change back the struct to private
+
+```go
+type account struct {
+	owner   string
+	balance int
+}
+```
+to demonstrate constructor we back to Account,
+```go
+type Account struct {
+	owner   string
+	balance int
+}
+
+func NewAccount(owner string) *Account{
+	account := Account{owner: owner, balance: 0}
+	return &account
+}
+```
+
+after change folder name everything is not working 
