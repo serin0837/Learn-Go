@@ -509,7 +509,9 @@ a lot of things come fromt structs so it's really important
 
 
 
-# Firt Project
+# 2.Firt Project
+
+## 2.0 
 had error about module so I had to type `go mod init github.com/serin0837/learngo` in terminal and working
 
 
@@ -545,3 +547,54 @@ func NewAccount(owner string) *Account{
 ```
 
 after change folder name everything is not working 
+
+```go
+
+func main() {
+	account := accounts.NewAccount("nico")
+	fmt.Println(account)	
+}
+//&{nico 0}
+```
+
+now we can not change account.balabce = 1000 
+
+## 2.1 -2.2 Methods part One and Two
+- have to create method
+- add (a Account) in between of func and func name
+```go
+func (a Account) Deposit(amount int){
+}
+```
+- (a Account) is receiver
+- a can be anything
+- convention is lowercase of struct
+
+```go
+func main() {
+	account := accounts.NewAccount("nico")
+	account.Deposit(10)
+	fmt.Println(account.Balance())
+} // 0 now so it's not actually change the value of account balance
+```
+- because before it made a copy of account
+a is 
+- Balance method is okay to copy becuase we just want value of balance
+- Deposit method is not okay to copy becuase we want to change the value of balance
+- so *Account (pointer receiver)
+- and now 10
+
+- withdraw method with pointer receiver
+
+- if we don't have money we should not able to withdraw money
+
+- need to write error ourself
+- so go does not know how to show error it's just not working with withdraw function 
+- so we have to write function
+```go
+	err := account.Withdraw(20)
+	if err != nil {
+		log.Fatalln(err)
+	}
+```
+- Fatalln - println and os.Exit (kill program)
