@@ -11,10 +11,13 @@ import ("fmt"
 func main() {
 	account := accounts.NewAccount("nico")
 	account.Deposit(10)
+	fmt.Print(account)
 	fmt.Println(account.Balance())
+	fmt.Println(account.Balance(),account.Owner())
+
 	err := account.Withdraw(20)
 	if err != nil {
 		log.Fatalln(err)
 	}
-	fmt.Println(account.Balance(),account.ChangeOwner("serin"))
+	
 }

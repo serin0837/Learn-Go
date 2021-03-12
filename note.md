@@ -598,3 +598,26 @@ a is
 	}
 ```
 - Fatalln - println and os.Exit (kill program)
+- create ChangeOwner, Owner method
+- go can call method automatically
+
+- string method will be called without I type
+```go
+
+func(a Account) String() string{
+	return "whatever you want "
+}
+```
+
+```go
+fmt.Print(account)
+//whatever you want 
+```
+
+```go
+func(a Account) String() string{
+	return fmt.Sprint(a.Owner(), "'s account.\nHas:", a.Balance())
+}
+//nico's account.
+//Has:10
+```
