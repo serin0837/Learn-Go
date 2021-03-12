@@ -621,3 +621,216 @@ func(a Account) String() string{
 //nico's account.
 //Has:10
 ```
+
+code of main.go for account project
+```go
+package main
+
+import ("fmt"
+
+"github.com/serin0837/learngo/accounts"
+
+"log"
+)
+
+
+func main() {
+	account := accounts.NewAccount("nico")
+	account.Deposit(10)
+	fmt.Print(account)
+	fmt.Println(account.Balance())
+	fmt.Println(account.Balance(),account.Owner())
+
+	err := account.Withdraw(20)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	
+}
+
+```
+
+# 3. Secound project Dictionary 
+- Dictionary is alias(가명) for map 
+- create Dictionary
+```go
+package mydict
+
+//Dictionary type
+type Dictionary map[string]string
+
+```
+
+```go
+package main
+
+import ("fmt"
+
+"github.com/serin0837/learngo/mydict"
+)
+
+
+func main() {
+	//create dictionary 
+	dictionary := mydict.Dictionary{}
+	//add something in dictioanry 
+	dictionary["hello"] = "hello"
+	fmt.Println(dictionary)
+}
+
+```
+
+- we can use method to a type not only to struct
+
+- we can add methoes like add, delete etc
+- we can do like this and can find word but
+```go
+func main() {
+	dictionary := mydict.Dictionary{"first": "First word"}
+	fmt.Println(dictionary["first"])
+}
+//First word 
+```
+
+- we can add method
+
+```go
+var errNotFound = errors.New("Not found")
+//methods // retrun string and error 
+//Search for word
+func (d Dictionary) Search(word string) (string, error){
+	//map have two value// exist is boolean
+	value, exists := d[word]	
+	if exists{
+		//nil (error is nil no error)//we have to return two values
+		return value, nil
+	}
+	//return two values, first one is nothing cause no value
+	return "",errNotFound
+}
+```
+```go
+package main
+
+import (
+"fmt"
+"github.com/serin0837/learngo/mydict"
+)
+
+
+func main() {
+	dictionary := mydict.Dictionary{"first": "First word"}
+	definition, err := dictionary.Search("second")
+	if err != nil{
+		fmt.Println(err)
+	}else{
+		fmt.Println(definition)
+	}
+}
+```
+
+- add add method
+```go
+func (d Dictionary) Add(word, def string) error{
+	//if there is word already that would throw error
+	//we don't need definition
+	_, err := d.Search(word)
+	if err == errNotFound{
+		d[word] = def
+	}else if err == nil {
+		return errWordExists
+	}
+}
+```
+- can write in switch as well
+```go
+switch err {
+case errNotFound:
+	d[word] =def
+case nil:
+	return errWOrdExists
+}
+``` 
+```go
+func main() {
+	dictionary := mydict.Dictionary{"first": "First word"}
+	err := dictionary.Add("hello", "Greeting")
+	if err != nil{
+		fmt.Println(err)
+	}
+	fmt.Println(dictionary)
+}
+```
+
+```go
+
+func main() {
+	dictionary := mydict.Dictionary{"first": "First word"}
+	err := dictionary.Add("hello", "Greeting")
+	if err != nil{
+		fmt.Println(err)
+	}
+	fmt.Println(dictionary)
+	definition, err2 := dictionary.Search("hello")
+	if err2 != nil{
+		fmt.Println(err2)
+	}else{
+		fmt.Println(definition)
+	}	
+}
+
+```
+
+- add update and delete methods
+```go
+
+func(d Dictionary) Update(word, def string)err{
+	//search the word exist first
+	_, err := d.Search(word)
+	switch err{
+	//if there is no word
+	case errNotFound:
+		return errCantUpdate
+	//word exist so we can update word
+	case nil:
+		d[word] = def
+	}
+	return nil
+}
+```
+
+```go
+
+func main() {
+	dictionary := mydict.Dictionary{}
+	baseWord := "hello"
+	dictionary.Add(baseWord, "First")
+	err := dictionary.Update(baseWord, "Second")
+	if err != nil{
+		fmt.Println(err)
+	}
+	word, _ := dictionary.Search(baseWord)
+	fmt.Println(word) 
+}
+
+```
+
+- delete function
+```go
+func(d Dictionary) Delete (word string){
+//delete function is built in Go
+	delete(d, word)
+}
+```
+
+```go
+
+func main() {
+	dictionary := mydict.Dictionary{}
+	baseWord := "hello"
+	dictionary.Add(baseWord, "First")
+	fmt.Println(dictionary)
+	dictionary.Delete(baseWord)
+	fmt.Println(dictionary)
+}
+```
